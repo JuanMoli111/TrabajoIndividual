@@ -40,13 +40,39 @@ def loop():
 
         #Si el usuario clickea el dataset 1
         if event == '-criterio1-':
-            listaProcesada = analizar_dataset1(0,path)
-            print(listaProcesada)
+
+            #Genera la lista de datos del csv con la funcion analizar dataset1
+            lista = analizar_dataset1(path)
+            #Ordena la lista por puntaje calificado por la crítica
+            lista = sorted(lista, key = lambda x : x[1],reverse = True)
+
+            #Informa los primeros 20 elementos (20 juegos MEJOR CALIFICADOS)
+            i = 1
+            for elem in lista[:20]:
+                print(str(i) + ": " + str(elem))
+                i += 1
+
+            #PENDIENTE: CARGAR INFO AL JSON
+
 
         #Si el usuario clickea el dataset 2
         if event == "-criterio2-":
-            listaProcesada = analizar_dataset1(1,path)
-            print(listaProcesada)
+            #Genera la lista de datos del csv con la funcion analizar dataset1
+            lista = analizar_dataset1(path)
+
+            #Ordenar la lista por puntaje d la critica
+            lista = sorted(lista, key = lambda x : x[1],reverse = False)
+            
+        
+            #Informar los primeros 20 elementos (20 juegos PEOR calificados)
+            i = 1
+            for elem in lista[:20]:
+                print(str(i) + ": " + str(elem))
+                i += 1
+            
+            #PENDIENTE: CARGAR INFO AL JSON
+            print("LOS VEINTE JUEGOS PEOR CALIFICADOS POR LA CRITICA")
+
 
 
     return window
