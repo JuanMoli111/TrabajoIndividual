@@ -1,73 +1,17 @@
 import PySimpleGUI as sg
-import json
 import os.path
 import csv
-import PIL.Image
-import io
-import base64
-import urllib
+import analisis1
+from functions import *
 
-def convert_to_bytes(file_or_bytes, resize=None):
-    '''
-    Will convert into bytes and optionally resize an image that is a file or a base64 bytes object.
-    Turns into  PNG format in the process so that can be displayed by tkinter
-    :param file_or_bytes: either a string filename or a bytes base64 image object
-    :type file_or_bytes:  (Union[str, bytes])
-    :param resize:  optional new size
-    :type resize: (Tuple[int, int] or None)
-    :return: (bytes) a byte-string object
-    :rtype: (bytes)
-    '''
-    if isinstance(file_or_bytes, str):
-        img = PIL.Image.open(file_or_bytes)
-    else:
-        try:
-            img = PIL.Image.open(io.BytesIO(base64.b64decode(file_or_bytes)))
-        except Exception as e:
-            dataBytesIO = io.BytesIO(file_or_bytes)
-            img = PIL.Image.open(dataBytesIO)
-
-    cur_width, cur_height = img.size
-    #Resizing 
-    if resize:
-        new_width, new_height = resize
-        scale = min(new_height/cur_height, new_width/cur_width)
-        img = img.resize((int(cur_width*scale), int(cur_height*scale)), PIL.Image.ANTIALIAS)
-
-    bio = io.BytesIO()
-    img.save(bio, format="PNG")
-    del img
-    return bio.getvalue()
 
 def start():
     """
-    Lanza la ejecución de la ventana del menú de inicio
+    Lanza la ejecución de la ventana del menú inicial
     """
     window = loop()
     window.close()
 
-
-path = '/Users/EXO/Desktop/Facu/FACULTAD/Seminario de Lenguajes - Python/trabajo individual/Datasets/DatasetAutos-Logos/companies.csv'
-#abro el dataset
-with open(path) as data_set:
-    reader = csv.reader(data_set, delimiter=',')
-    print(type(reader))
-        # creo el archivo .csv de salida
-
-    cut = False
-    with open(path, 'r') as salida:
-
-        writer = csv.writer(salida)
-            # pongo el encabezado
-        while not(cut):
-            #print(reader.__next__()[1])
-
-            try:
-                line = reader.__next__()
-                #urlopen((line[1]))
-        
-            except StopIteration:
-                cut = True
 
 def loop():
     """
@@ -84,16 +28,11 @@ def loop():
                 [sg.Text('Resize to'), sg.In(key='-W-', size=(5,1)), sg.In(key='-H-', size=(5,1))]  
                 ])
 
-    
+
+    path = 'C:/Users/EXO/Desktop/Facu/FACULTAD/Seminario de Lenguajes - Python/trabajo individual/Datasets/DatasetAutos-Logos/Logos'
+
     while True:
         event, values = window.read()
-
-        path = 'C:/Users/EXO/Desktop/Facu/FACULTAD/Seminario de Lenguajes - Python/trabajo individual/Datasets/DatasetAutos-Logos/Logos'
-
-        #file_list sera una lista de strings, los strings son los nombres de los archivos del directorio path 
-        file_list = os.listdir(path)
-
-        print(file_list)
 
         #Si el usuario clickea en salir
         if event in (sg.WINDOW_CLOSED, "Exit", "-exit-","salir","Salir"):
@@ -102,18 +41,17 @@ def loop():
         #Si el usuario clickea el dataset 1
         if event == '-data1-':
 
-            filename = os.path.join(path, file_list[1])
-
+            window.hide()
+            analisis1.start()
+            window.un_hide()
 
         #Si el usuario clickea el dataset 2
         if event == "-data2-":
 
-
-            
-            filename = os.path.join(path, file_list[33])
- 
- 
-        window['-IMAGE-'].update(data=convert_to_bytes(filename,[100,100]))
+            #PENDIENTE: CREAR VENTANA DE ANALISIS DEL DATASET 2
+            window.hide()
+            analisis1.start()
+            window.un_hide()
 
     return window
 
