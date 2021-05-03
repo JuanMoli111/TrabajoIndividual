@@ -1,10 +1,11 @@
 import PySimpleGUI as sg
 import json
 import os.path
-
+import csv
 import PIL.Image
 import io
 import base64
+import urllib
 
 def convert_to_bytes(file_or_bytes, resize=None):
     '''
@@ -46,6 +47,28 @@ def start():
     window.close()
 
 
+path = '/Users/EXO/Desktop/Facu/FACULTAD/Seminario de Lenguajes - Python/trabajo individual/Datasets/DatasetAutos-Logos/companies.csv'
+#abro el dataset
+with open(path) as data_set:
+    reader = csv.reader(data_set, delimiter=',')
+    print(type(reader))
+        # creo el archivo .csv de salida
+
+    cut = False
+    with open(path, 'r') as salida:
+
+        writer = csv.writer(salida)
+            # pongo el encabezado
+        while not(cut):
+            #print(reader.__next__()[1])
+
+            try:
+                line = reader.__next__()
+                #urlopen((line[1]))
+        
+            except StopIteration:
+                cut = True
+
 def loop():
     """
     Loop de la ventana de menú que capta los eventos al apretar las opciones
@@ -55,11 +78,9 @@ def loop():
     window = sg.Window('DataAnalysis').Layout([
                 [sg.Text('Que datos analizamos?', size=(30,1), font=("Sawasdee", 25), justification= 'center')],
                 [sg.Button('Dataset1',key='-data1-')],
-                [sg.Button('Dataset2',key='-data2-')],
+                [sg.Button('Marcas de auto mas compradas',key='-data2-')],
                 [sg.Button('SALIR',key='-exit-')],
                 [sg.Image(key='-IMAGE-')],
-                [sg.Text('Folder'), sg.In(size=(25,1), enable_events=True ,key='-FOLDER-'), sg.FolderBrowse()],
-                [sg.Listbox(values=[], enable_events=True, size=(40,20),key='-FILE LIST-')],
                 [sg.Text('Resize to'), sg.In(key='-W-', size=(5,1)), sg.In(key='-H-', size=(5,1))]  
                 ])
 
@@ -67,37 +88,32 @@ def loop():
     while True:
         event, values = window.read()
 
-        path = 'C:/Users/EXO/Desktop/Facu/FACULTAD/Seminario de Lenguajes - Python/trabajo individual/Imagenes'
+        path = 'C:/Users/EXO/Desktop/Facu/FACULTAD/Seminario de Lenguajes - Python/trabajo individual/Datasets/DatasetAutos-Logos/Logos'
 
-        values['-FOLDER-'] = path
-
+        #file_list sera una lista de strings, los strings son los nombres de los archivos del directorio path 
         file_list = os.listdir(path)
 
         print(file_list)
 
-
-        for i in range(len(file_list)):
-            filename = os.path.join(path, file_list[i])
-            window['-IMAGE-'].update(data=convert_to_bytes(filename))
-
         #Si el usuario clickea en salir
-        if event == '-exit-':
+        if event in (sg.WINDOW_CLOSED, "Exit", "-exit-","salir","Salir"):
             break
-
-        if event == 'WIN_CLOSED':
-            return window
 
         #Si el usuario clickea el dataset 1
         if event == '-data1-':
-            
-            print("Eligio el dataset1")
+
+            filename = os.path.join(path, file_list[1])
 
 
         #Si el usuario clickea el dataset 2
         if event == "-data2-":
-            
-            print("Eligio el dataset2")
 
+
+            
+            filename = os.path.join(path, file_list[33])
+ 
+ 
+        window['-IMAGE-'].update(data=convert_to_bytes(filename,[100,100]))
 
     return window
 
