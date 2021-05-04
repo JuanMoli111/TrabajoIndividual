@@ -13,8 +13,7 @@ def analizar_dataset2(EU,path):
         #Crea el objeto reader, sirve para leer las filas de un archivo csv
         reader = csv.reader(data_set, delimiter=',')
 
-        header = reader.__next__()
-        print(header)
+        reader.__next__()
 
         #Crea una lista vacía, donde almacenará cada fila del csv
         lista = list()
