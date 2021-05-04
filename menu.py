@@ -1,8 +1,7 @@
 import PySimpleGUI as sg
-import os.path
 import csv
 import analisis1
-from functions import *
+import analisis2
 
 
 def start():
@@ -21,11 +20,9 @@ def loop():
     #Construye y configura la ventana con su respectivo layout, y la guarda en la variable window
     window = sg.Window('DataAnalysis').Layout([
                 [sg.Text('Que datos analizamos?', size=(30,1), font=("Sawasdee", 25), justification= 'center')],
-                [sg.Button('Dataset1',key='-data1-')],
-                [sg.Button('Marcas de auto mas compradas',key='-data2-')],
+                [sg.Button('Videojuegos vendidos en 2018',key='-data1-')],
+                [sg.Button('50 Marcas de auto mas compradas en USA',key='-data2-')],
                 [sg.Button('SALIR',key='-exit-')],
-                [sg.Image(key='-IMAGE-')],
-                [sg.Text('Resize to'), sg.In(key='-W-', size=(5,1)), sg.In(key='-H-', size=(5,1))]  
                 ])
 
 
@@ -50,7 +47,7 @@ def loop():
 
             #PENDIENTE: CREAR VENTANA DE ANALISIS DEL DATASET 2
             window.hide()
-            analisis1.start()
+            analisis2.start()
             window.un_hide()
 
     return window
