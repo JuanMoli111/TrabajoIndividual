@@ -67,7 +67,7 @@ def loop():
                 data['info_autos'].append(d)
                 i += 1
            
-            #Path para el archivo json que contendrá las marcas de los autos europeos mas vendidos
+            #Path para el archivo json que contendrá las marcas de los autos mas vendidos
             path_json = 'C:/Users/EXO/Desktop/Facu/FACULTAD/Seminario de Lenguajes - Python/trabajo individual/data2crit1.json'
 
             #Abrir o crear el json, y agregar data
